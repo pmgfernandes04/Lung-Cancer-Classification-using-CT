@@ -77,11 +77,29 @@ class MakeDataSet:
         self.extractor.enableFeatureClassByName('shape2D')
 
         # Data Augmentation Pipeline
-        self.augmentation_pipeline = A.Compose([
-            A.HorizontalFlip(p=0.5),
-            A.RandomRotate90(p=0.5),
-            A.ShiftScaleRotate(p=0.5, shift_limit=0.0625, scale_limit=0.1, rotate_limit=45),
-            A.RandomBrightnessContrast(p=0.5),
+        self.augmentation_pipeline = self.augmentation_pipeline = A.Compose([
+            A.HorizontalFlip(p=0.5),  # Apply horizontal flips with a probability of 50%
+            A.ShiftScaleRotate(
+                shift_limit=0.02,  # Shift images by up to 2% of height/width
+                scale_limit=0.05,  # Scale images by up to ±5%
+                rotate_limit=10,  # Rotate images within ±10 degrees
+                p=0.3
+            ),
+            A.RandomBrightnessContrast(
+                brightness_limit=0.05,  # Adjust brightness by up to ±10%
+                contrast_limit=0.05,  # Adjust contrast by up to ±10%
+                p=0.2
+            ),
+            A.ElasticTransform(
+                alpha=0.5,
+                sigma=30,
+                alpha_affine=None,
+                p=0.1
+            ),  # Elastic deformation
+            A.GaussNoise(
+                var_limit=(5.0, 10.0),
+                p=0.2
+            )  # Add Gaussian noise to simulate noisy scans
         ])
 
         # Initialize metadata DataFrame with basic columns
@@ -252,8 +270,10 @@ class MakeDataSet:
             nodules_annotation = self.scan.cluster_annotations()
 
             num_slices = len(self.scan.slice_zvals)
-            logging.info(f"Patient ID: {pid}, Number of Slices: {num_slices}, Number of Annotated Nodules: {len(nodules_annotation)}")
-            print(f"Patient ID: {pid}, Number of Slices: {num_slices}, Number of Annotated Nodules: {len(nodules_annotation)}")
+            logging.info(
+                f"Patient ID: {pid}, Number of Slices: {num_slices}, Number of Annotated Nodules: {len(nodules_annotation)}")
+            print(
+                f"Patient ID: {pid}, Number of Slices: {num_slices}, Number of Annotated Nodules: {len(nodules_annotation)}")
 
             if len(nodules_annotation) > 0:
                 # Patients with nodules
@@ -281,13 +301,12 @@ class MakeDataSet:
                             lung_segmented_np_array = lung_segmented_np_array.astype(np.float32)
                             mask_slice = mask_slice.astype(np.uint8)
 
-                            augmented_image, augmented_mask = self.augment_data(lung_segmented_np_array, mask_slice)
-
+                            #Original Images being trnasformed in npy
                             nodule_name = f"{pid[-4:]}_NI{prefix[nodule_idx]}_slice{prefix[idx]}.npy"
                             mask_name = f"{pid[-4:]}_MA{prefix[nodule_idx]}_slice{prefix[idx]}.npy"
 
-                            # Extract Radiomic Features
-                            radiomics_features = self.extract_radiomics_features(augmented_image, augmented_mask)
+                            # Extract Radiomic Features from the ORIGINAL images
+                            radiomics_features = self.extract_radiomics_features(lung_segmented_np_array, mask_slice)
 
                             malignancy, cancer_label = self.calculate_malignancy(nodule)
 
@@ -307,17 +326,23 @@ class MakeDataSet:
                             print(f"Added metadata for nodule {nodule_idx}, slice {idx} in scan {pid}")
 
                             # Save images and masks
-                            np.save(patient_image_dir / nodule_name, augmented_image.astype(np.float32))
-                            np.save(patient_mask_dir / mask_name, augmented_mask.astype(np.uint8))
+                            np.save(patient_image_dir / nodule_name, lung_segmented_np_array.astype(np.float32))
+                            np.save(patient_mask_dir / mask_name, mask_slice.astype(np.uint8))
 
                             logging.info(f"Processed nodule {nodule_idx} slice {idx} for scan {self.scan.id}")
                             print(f"Processed nodule {nodule_idx} slice {idx} for scan {pid}")
+
+                            #Applying data augmentation for training a Machine Learning Model
+                            augmented_image, augmented_mask = self.augment_data(lung_segmented_np_array, mask_slice)
+                            np.save(patient_image_dir / f"augmented_{nodule_name}", augmented_image.astype(np.float32))
+                            np.save(patient_mask_dir / f"augmented_{mask_name}", augmented_mask.astype(np.uint8))
 
                             # Release memory
                             gc.collect()
 
                     except Exception as e:
-                        logging.error(f"Error processing nodule {nodule_idx} in scan {pid}: {type(e).__name__}: {e}", exc_info=True)
+                        logging.error(f"Error processing nodule {nodule_idx} in scan {pid}: {type(e).__name__}: {e}",
+                                      exc_info=True)
                         continue
 
             # Save metadata to CSV
