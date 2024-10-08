@@ -17,11 +17,11 @@ import numpy as np
 import pandas as pd
 import pylidc as pl
 import SimpleITK as sitk
+from scipy import ndimage
 
 from radiomics import featureextractor
-import albumentations as A
 
-from utils import is_dir_path, segment_lung
+from utils import is_dir_path
 from pylidc.utils import consensus
 
 # Configure Logging
@@ -42,8 +42,6 @@ parser.read('lung.conf')
 DICOM_DIR = is_dir_path(parser.get('prepare_dataset', 'LIDC_DICOM_PATH'))
 MASK_DIR = is_dir_path(parser.get('prepare_dataset', 'MASK_PATH'))
 IMAGE_DIR = is_dir_path(parser.get('prepare_dataset', 'IMAGE_PATH'))
-CLEAN_DIR_IMAGE = is_dir_path(parser.get('prepare_dataset', 'CLEAN_PATH_IMAGE'))
-CLEAN_DIR_MASK = is_dir_path(parser.get('prepare_dataset', 'CLEAN_PATH_MASK'))
 META_PATH = is_dir_path(parser.get('prepare_dataset', 'META_PATH'))
 
 # Hyperparameter settings for prepare_dataset function
@@ -59,51 +57,21 @@ class MakeDataSet:
     A class to prepare and process a single LIDC-IDRI scan for machine learning applications.
     """
 
-    def __init__(self, scan, IMAGE_DIR, MASK_DIR, CLEAN_DIR_IMAGE,
-                 CLEAN_DIR_MASK, META_DIR, mask_threshold, padding_size, confidence_level=0.5):
+    def __init__(self, scan, IMAGE_DIR, MASK_DIR, META_DIR, mask_threshold, padding_size, confidence_level=0.5):
         self.scan = scan
         self.img_path = IMAGE_DIR
         self.mask_path = MASK_DIR
-        self.clean_path_img = CLEAN_DIR_IMAGE
-        self.clean_path_mask = CLEAN_DIR_MASK
         self.meta_path = META_DIR
         self.mask_threshold = mask_threshold
         self.c_level = confidence_level
         self.padding = [(padding_size, padding_size)] * 3
 
-        # Initialize Radiomics Feature Extractor
-        radiomics_params = {'enableAllFeatures': True}
-        self.extractor = featureextractor.RadiomicsFeatureExtractor(**radiomics_params)
-        self.extractor.enableFeatureClassByName('shape2D')
-
-        # Data Augmentation Pipeline
-        self.augmentation_pipeline = self.augmentation_pipeline = A.Compose([
-            A.HorizontalFlip(p=0.5),  # Apply horizontal flips with a probability of 50%
-            A.ShiftScaleRotate(
-                shift_limit=0.02,  # Shift images by up to 2% of height/width
-                scale_limit=0.05,  # Scale images by up to ±5%
-                rotate_limit=10,  # Rotate images within ±10 degrees
-                p=0.3
-            ),
-            A.RandomBrightnessContrast(
-                brightness_limit=0.05,  # Adjust brightness by up to ±10%
-                contrast_limit=0.05,  # Adjust contrast by up to ±10%
-                p=0.2
-            ),
-            A.ElasticTransform(
-                alpha=0.5,
-                sigma=30,
-                alpha_affine=None,
-                p=0.1
-            ),  # Elastic deformation
-            A.GaussNoise(
-                var_limit=(5.0, 10.0),
-                p=0.2
-            )  # Add Gaussian noise to simulate noisy scans
-        ])
+        # Initialize Radiomics Feature Extractor for 3D features
+        self.extractor = featureextractor.RadiomicsFeatureExtractor()
+        self.extractor.enableAllFeatures()
 
         # Initialize metadata DataFrame with basic columns
-        self.meta_columns = ['patient_id', 'nodule_no', 'slice_no', 'original_image', 'mask_image',
+        self.meta_columns = ['patient_id', 'nodule_no', 'original_image', 'mask_image',
                              'malignancy', 'is_cancer', 'is_clean']
         self.meta = pd.DataFrame(columns=self.meta_columns)
         logging.info("Initialized MakeDataSet class.")
@@ -181,7 +149,7 @@ class MakeDataSet:
         Normalizes Hounsfield Units (HU) to a range between 0 and 1.
 
         Parameters:
-            image (numpy.ndarray): The image slice.
+            image (numpy.ndarray): The image or volume.
             hu_min (int): Minimum HU value to clip.
             hu_max (int): Maximum HU value to clip.
 
@@ -196,11 +164,11 @@ class MakeDataSet:
 
     def extract_radiomics_features(self, image, mask):
         """
-        Extract radiomic features from an image and its corresponding mask.
+        Extract radiomic features from an image or volume and its corresponding mask.
 
         Parameters:
-            image (numpy.ndarray): The image slice.
-            mask (numpy.ndarray): The mask slice.
+            image (numpy.ndarray): The image or volume.
+            mask (numpy.ndarray): The mask.
 
         Returns:
             dict: Radiomic features.
@@ -216,6 +184,11 @@ class MakeDataSet:
         # Ensure that the mask is cast to an integer type
         mask_sitk = sitk.Cast(mask_sitk, sitk.sitkInt16)
 
+        # Set spacing (if available)
+        spacing = self.scan.spacings[::-1]  # z, y, x
+        image_sitk.SetSpacing(spacing)
+        mask_sitk.SetSpacing(spacing)
+
         # Extract features
         features = self.extractor.execute(image_sitk, mask_sitk)
         # Prefix radiomics features
@@ -227,20 +200,6 @@ class MakeDataSet:
 
         return radiomics_features
 
-    def augment_data(self, image, mask):
-        """
-        Applies data augmentation to the image and mask.
-
-        Parameters:
-            image (numpy.ndarray): The image slice.
-            mask (numpy.ndarray): The mask slice.
-
-        Returns:
-            tuple: Augmented image and mask.
-        """
-        augmented = self.augmentation_pipeline(image=image, mask=mask)
-        return augmented['image'], augmented['mask']
-
     def process_scan(self):
         """
         Processes a single patient's scan, extracting features, saving images, masks, and metadata.
@@ -249,7 +208,7 @@ class MakeDataSet:
         prefix = [str(x).zfill(3) for x in range(1000)]
 
         # Create necessary directories
-        for path in [self.img_path, self.mask_path, self.clean_path_img, self.clean_path_mask, self.meta_path]:
+        for path in [self.img_path, self.mask_path, self.meta_path]:
             Path(path).mkdir(parents=True, exist_ok=True)
             logging.info(f"Ensured directory exists: {path}")
 
@@ -282,63 +241,86 @@ class MakeDataSet:
                 patient_image_dir.mkdir(parents=True, exist_ok=True)
                 patient_mask_dir.mkdir(parents=True, exist_ok=True)
 
+                # Get the full volume and normalize
+                full_volume = self.scan.to_volume()
+                full_volume = self.normalize_hounsfield_units(full_volume)
+
                 for nodule_idx, nodule in enumerate(nodules_annotation):
                     try:
+                        # Generate consensus mask for the nodule
                         mask_3d, cbbox, masks = consensus(nodule, self.c_level, self.padding)
-                        zmin, zmax = cbbox[2].start, cbbox[2].stop
-                        slices = self.scan.load_all_dicom_images(verbose=False)[zmin:zmax]
 
-                        # Process each slice
-                        for idx, img in enumerate(slices):
-                            image_slice = img.pixel_array
-                            image_slice = self.normalize_hounsfield_units(image_slice)
-                            mask_slice = mask_3d[:, :, idx]
-                            if np.sum(mask_slice) <= self.mask_threshold:
-                                continue
+                        # Crop the volume and mask to the bounding box
+                        vol_crop = full_volume[cbbox]
+                        mask_crop = mask_3d
 
-                            # Segment Lung region
-                            lung_segmented_np_array = segment_lung(image_slice)
-                            lung_segmented_np_array = lung_segmented_np_array.astype(np.float32)
-                            mask_slice = mask_slice.astype(np.uint8)
+                        if np.sum(mask_crop) <= self.mask_threshold:
+                            continue
 
-                            #Original Images being trnasformed in npy
-                            nodule_name = f"{pid[-4:]}_NI{prefix[nodule_idx]}_slice{prefix[idx]}.npy"
-                            mask_name = f"{pid[-4:]}_MA{prefix[nodule_idx]}_slice{prefix[idx]}.npy"
+                        # Save the original cropped volume and mask
+                        nodule_name = f"{pid[-4:]}_NI{prefix[nodule_idx]}.npy"
+                        mask_name = f"{pid[-4:]}_MA{prefix[nodule_idx]}.npy"
 
-                            # Extract Radiomic Features from the ORIGINAL images
-                            radiomics_features = self.extract_radiomics_features(lung_segmented_np_array, mask_slice)
+                        np.save(patient_image_dir / nodule_name, vol_crop.astype(np.float32))
+                        np.save(patient_mask_dir / mask_name, mask_crop.astype(np.uint8))
 
-                            malignancy, cancer_label = self.calculate_malignancy(nodule)
+                        # Extract radiomics features from the ORIGINAL images
+                        radiomics_features = self.extract_radiomics_features(vol_crop, mask_crop)
 
-                            meta_dict = {
-                                'patient_id': pid[-4:],
-                                'nodule_no': nodule_idx,
-                                'slice_no': prefix[idx],
-                                'original_image': nodule_name,
-                                'mask_image': mask_name,
-                                'malignancy': malignancy,
-                                'is_cancer': cancer_label,
-                                'is_clean': False,
-                            }
-                            meta_dict.update(radiomics_features)
+                        malignancy, cancer_label = self.calculate_malignancy(nodule)
 
-                            self.save_meta(meta_dict)
-                            print(f"Added metadata for nodule {nodule_idx}, slice {idx} in scan {pid}")
+                        meta_dict = {
+                            'patient_id': pid[-4:],
+                            'nodule_no': nodule_idx,
+                            'original_image': nodule_name,
+                            'mask_image': mask_name,
+                            'malignancy': malignancy,
+                            'is_cancer': cancer_label,
+                            'is_clean': False,
+                        }
+                        meta_dict.update(radiomics_features)
 
-                            # Save images and masks
-                            np.save(patient_image_dir / nodule_name, lung_segmented_np_array.astype(np.float32))
-                            np.save(patient_mask_dir / mask_name, mask_slice.astype(np.uint8))
+                        self.save_meta(meta_dict)
+                        print(f"Added metadata for nodule {nodule_idx} in scan {pid}")
 
-                            logging.info(f"Processed nodule {nodule_idx} slice {idx} for scan {self.scan.id}")
-                            print(f"Processed nodule {nodule_idx} slice {idx} for scan {pid}")
+                        logging.info(f"Processed nodule {nodule_idx} for scan {self.scan.id}")
+                        print(f"Processed nodule {nodule_idx} for scan {pid}")
 
-                            #Applying data augmentation for training a Machine Learning Model
-                            augmented_image, augmented_mask = self.augment_data(lung_segmented_np_array, mask_slice)
-                            np.save(patient_image_dir / f"augmented_{nodule_name}", augmented_image.astype(np.float32))
-                            np.save(patient_mask_dir / f"augmented_{mask_name}", augmented_mask.astype(np.uint8))
+                        # Data Augmentation: Rotate around x, y, z axes
+                        axes = [(1, 2), (0, 2), (0, 1)]  # x, y, z axes
+                        angles = [0, 45, 90, 135, 180, 225, 270]
 
-                            # Release memory
-                            gc.collect()
+                        for axis in axes:
+                            for angle in angles:
+                                # Rotate the volume and mask
+                                augmented_vol = ndimage.rotate(vol_crop, angle, axes=axis, reshape=False, order=1, mode='nearest')
+                                augmented_mask = ndimage.rotate(mask_crop, angle, axes=axis, reshape=False, order=0, mode='nearest')
+
+                                # Generate augmented file names
+                                axis_name = { (1,2): 'x', (0,2): 'y', (0,1): 'z' }[axis]
+                                aug_nodule_name = f"{pid[-4:]}_NI{prefix[nodule_idx]}_rot{axis_name}_{angle}.npy"
+                                aug_mask_name = f"{pid[-4:]}_MA{prefix[nodule_idx]}_rot{axis_name}_{angle}.npy"
+
+                                np.save(patient_image_dir / aug_nodule_name, augmented_vol.astype(np.float32))
+                                np.save(patient_mask_dir / aug_mask_name, augmented_mask.astype(np.uint8))
+
+                                # Optionally, extract radiomics features from augmented data
+                                # radiomics_features_aug = self.extract_radiomics_features(augmented_vol, augmented_mask)
+                                # Update metadata and save
+                                # meta_dict_aug = {
+                                #     'patient_id': pid[-4:],
+                                #     'nodule_no': nodule_idx,
+                                #     'original_image': aug_nodule_name,
+                                #     'mask_image': aug_mask_name,
+                                #     'malignancy': malignancy,
+                                #     'is_cancer': cancer_label,
+                                #     'is_clean': False,
+                                # }
+                                # meta_dict_aug.update(radiomics_features_aug)
+                                # self.save_meta(meta_dict_aug)
+
+                                # Release memory
+                                gc.collect()
 
                     except Exception as e:
                         logging.error(f"Error processing nodule {nodule_idx} in scan {pid}: {type(e).__name__}: {e}",
@@ -359,12 +341,8 @@ class MakeDataSet:
         print("Saving metadata.")  # Immediate feedback
         # Save metadata to CSV
         meta_file = Path(self.meta_path) / 'meta_info.csv'
-        if meta_file.exists():
-            # If metadata file exists, append without headers
-            self.meta.to_csv(meta_file, mode='a', header=False, index=False)
-        else:
-            # If metadata file does not exist, save with headers
-            self.meta.to_csv(meta_file, index=False)
+        # Overwrite the CSV file each time
+        self.meta.to_csv(meta_file, index=False)
         logging.info("Metadata saved to meta_info.csv.")
 
 
@@ -386,8 +364,6 @@ def main():
             scan,
             IMAGE_DIR,
             MASK_DIR,
-            CLEAN_DIR_IMAGE,
-            CLEAN_DIR_MASK,
             META_PATH,
             mask_threshold,
             padding_size,
