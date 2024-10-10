@@ -46,17 +46,6 @@ for pair in matching_column_pairs:
     print(pair)
 
 
-
-
-
-
-
-
-
-
-
-
-
 '''
 # Step 2: Find columns with only one unique value
 columns_with_one_unique_value = df.columns[df.nunique() == 1]
