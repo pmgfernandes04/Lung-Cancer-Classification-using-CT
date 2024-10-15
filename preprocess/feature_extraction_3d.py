@@ -558,8 +558,7 @@ def main():
     extractor = featureextractor.RadiomicsFeatureExtractor()
     extractor.enableFeatureClassByName('firstorder')  # First-order statistics
     extractor.enableFeatureClassByName('shape')       # Shape features
-    # Example: To enable GLCM features, uncomment the following line
-    # extractor.enableFeatureClassByName('glcm')
+    extractor.enableFeatureClassByName('glcm')
 
     # Initialize lists to hold radiomic and CNN feature dictionaries for all scans
     all_radiomic_features: List[dict] = []
