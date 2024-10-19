@@ -8,7 +8,7 @@ if __name__ == "__main__":
     # prepare_dataset.py configuration
     config['prepare_dataset'] = {
         #Path To LIDC Dataset
-        'LIDC_DICOM_PATH': './LIDC-IDRI',
+        'LIDC_DICOM_PATH': 'C:\\Users\\hasht\\Desktop\\Big_dataset\\manifest-1600709154662\\LIDC-IDRI',
         # Directory to save the output files
         # Directory for masks
         'MASK_PATH':'./data/Mask',

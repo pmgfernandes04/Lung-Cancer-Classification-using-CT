@@ -1,0 +1,419 @@
+2024-10-19 15:03:33,481 - INFO - Logging is set up.
+2024-10-19 15:03:33,481 - INFO - No valid config parameter, using defaults: {'minimumROIDimensions': 2, 'minimumROISize': None, 'normalize': False, 'normalizeScale': 1, 'removeOutliers': None, 'resampledPixelSpacing': None, 'interpolator': 'sitkBSpline', 'preCrop': False, 'padDistance': 5, 'distances': [1], 'force2D': False, 'force2Ddimension': 0, 'resegmentRange': None, 'label': 1, 'additionalInfo': True}
+2024-10-19 15:03:33,481 - INFO - Enabled image types: {'Original': {}}
+2024-10-19 15:03:33,481 - INFO - Enabled features: {'firstorder': [], 'glcm': [], 'gldm': [], 'glrlm': [], 'glszm': [], 'ngtdm': [], 'shape': []}
+2024-10-19 15:03:33,502 - INFO - Starting feature extraction for 15 scans.
+2024-10-19 15:03:33,503 - INFO - Processing patient LIDC-IDRI-0001
+2024-10-19 15:03:34,576 - INFO - Original volume shape: (512, 512, 133), Original spacing: [0.703125 0.703125 2.5     ]
+2024-10-19 15:03:35,745 - INFO - Resampled volume shape: (360, 360, 332), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:03:36,160 - ERROR - Error processing scan for patient LIDC-IDRI-0001: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:03:36,184 - INFO - Processing patient LIDC-IDRI-0002
+2024-10-19 15:03:36,184 - INFO - Successfully processed scan: LIDC-IDRI-0001
+2024-10-19 15:03:38,290 - INFO - Original volume shape: (512, 512, 261), Original spacing: [0.681641 0.681641 1.25    ]
+2024-10-19 15:03:39,381 - INFO - Resampled volume shape: (349, 349, 326), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:03:39,727 - ERROR - Error processing scan for patient LIDC-IDRI-0002: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:03:39,755 - INFO - Processing patient LIDC-IDRI-0003
+2024-10-19 15:03:39,755 - INFO - Successfully processed scan: LIDC-IDRI-0002
+2024-10-19 15:03:40,811 - INFO - Original volume shape: (512, 512, 140), Original spacing: [0.820312 0.820312 2.5     ]
+2024-10-19 15:03:42,472 - INFO - Resampled volume shape: (420, 420, 350), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:03:43,005 - ERROR - Error processing scan for patient LIDC-IDRI-0003: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:03:43,047 - INFO - Processing patient LIDC-IDRI-0004
+2024-10-19 15:03:43,047 - INFO - Successfully processed scan: LIDC-IDRI-0003
+2024-10-19 15:03:44,878 - INFO - Original volume shape: (512, 512, 241), Original spacing: [0.822266 0.822266 1.25    ]
+2024-10-19 15:03:46,321 - INFO - Resampled volume shape: (421, 421, 301), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:03:46,767 - ERROR - Error processing scan for patient LIDC-IDRI-0004: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:03:46,803 - INFO - Processing patient LIDC-IDRI-0005
+2024-10-19 15:03:46,803 - INFO - Successfully processed scan: LIDC-IDRI-0004
+2024-10-19 15:03:47,828 - INFO - Original volume shape: (512, 512, 133), Original spacing: [0.664062 0.664062 2.5     ]
+2024-10-19 15:03:48,865 - INFO - Resampled volume shape: (340, 340, 332), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:03:49,190 - ERROR - Error processing scan for patient LIDC-IDRI-0005: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:03:49,208 - INFO - Processing patient LIDC-IDRI-0006
+2024-10-19 15:03:49,208 - INFO - Successfully processed scan: LIDC-IDRI-0005
+2024-10-19 15:03:50,284 - INFO - Original volume shape: (512, 512, 133), Original spacing: [0.625 0.625 2.5  ]
+2024-10-19 15:03:51,211 - INFO - Resampled volume shape: (320, 320, 332), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:03:51,506 - ERROR - Error processing scan for patient LIDC-IDRI-0006: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:03:51,522 - INFO - Processing patient LIDC-IDRI-0007
+2024-10-19 15:03:51,523 - INFO - Successfully processed scan: LIDC-IDRI-0006
+2024-10-19 15:03:52,318 - ERROR - Error processing scan for patient LIDC-IDRI-0007: The length of the pixel data in the dataset (485260 bytes) doesn't match the expected length (524288 bytes). The dataset may be corrupted or there may be an issue with the pixel data handler.
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 406, in extract_features_3d
+    vol = scan.to_volume()  # Shape: (z, y, x)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 645, in to_volume
+    [
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 646, in <listcomp>
+    x.pixel_array * x.RescaleSlope + x.RescaleIntercept
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\dataset.py", line 1955, in pixel_array
+    self.convert_pixel_data()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\dataset.py", line 1512, in convert_pixel_data
+    self._convert_pixel_data_without_handler()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\dataset.py", line 1624, in _convert_pixel_data_without_handler
+    raise last_exception  # type: ignore[misc]
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\dataset.py", line 1604, in _convert_pixel_data_without_handler
+    self._do_pixel_data_conversion(handler)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\dataset.py", line 1631, in _do_pixel_data_conversion
+    arr = handler.get_pixeldata(self)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\pixel_data_handlers\numpy_handler.py", line 221, in get_pixeldata
+    raise ValueError(
+ValueError: The length of the pixel data in the dataset (485260 bytes) doesn't match the expected length (524288 bytes). The dataset may be corrupted or there may be an issue with the pixel data handler.
+2024-10-19 15:03:52,321 - INFO - Processing patient LIDC-IDRI-0008
+2024-10-19 15:03:53,034 - ERROR - Error processing scan for patient LIDC-IDRI-0008: The length of the pixel data in the dataset (382844 bytes) doesn't match the expected length (524288 bytes). The dataset may be corrupted or there may be an issue with the pixel data handler.
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 406, in extract_features_3d
+    vol = scan.to_volume()  # Shape: (z, y, x)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 645, in to_volume
+    [
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 646, in <listcomp>
+    x.pixel_array * x.RescaleSlope + x.RescaleIntercept
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\dataset.py", line 1955, in pixel_array
+    self.convert_pixel_data()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\dataset.py", line 1512, in convert_pixel_data
+    self._convert_pixel_data_without_handler()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\dataset.py", line 1624, in _convert_pixel_data_without_handler
+    raise last_exception  # type: ignore[misc]
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\dataset.py", line 1604, in _convert_pixel_data_without_handler
+    self._do_pixel_data_conversion(handler)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\dataset.py", line 1631, in _do_pixel_data_conversion
+    arr = handler.get_pixeldata(self)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pydicom\pixel_data_handlers\numpy_handler.py", line 221, in get_pixeldata
+    raise ValueError(
+ValueError: The length of the pixel data in the dataset (382844 bytes) doesn't match the expected length (524288 bytes). The dataset may be corrupted or there may be an issue with the pixel data handler.
+2024-10-19 15:03:53,035 - INFO - Processing patient LIDC-IDRI-0009
+2024-10-19 15:03:55,072 - INFO - Original volume shape: (512, 512, 256), Original spacing: [0.78125 0.78125 1.25   ]
+2024-10-19 15:03:56,458 - INFO - Resampled volume shape: (400, 400, 320), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:03:56,925 - ERROR - Error processing scan for patient LIDC-IDRI-0009: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:03:56,954 - INFO - Processing patient LIDC-IDRI-0010
+2024-10-19 15:03:58,819 - INFO - Original volume shape: (512, 512, 277), Original spacing: [0.878906 0.878906 1.25    ]
+2024-10-19 15:04:00,710 - INFO - Resampled volume shape: (450, 450, 346), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:04:01,373 - ERROR - Error processing scan for patient LIDC-IDRI-0010: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:04:01,415 - INFO - Processing patient LIDC-IDRI-0011
+2024-10-19 15:04:02,499 - INFO - Original volume shape: (512, 512, 128), Original spacing: [0.742188 0.742188 2.5     ]
+2024-10-19 15:04:03,743 - INFO - Resampled volume shape: (380, 380, 320), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:04:04,154 - ERROR - Error processing scan for patient LIDC-IDRI-0011: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:04:04,176 - INFO - Processing patient LIDC-IDRI-0012
+2024-10-19 15:04:05,164 - INFO - Original volume shape: (512, 512, 128), Original spacing: [0.742188 0.742188 2.5     ]
+2024-10-19 15:04:06,402 - INFO - Resampled volume shape: (380, 380, 320), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:04:06,787 - ERROR - Error processing scan for patient LIDC-IDRI-0012: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:04:06,813 - INFO - Processing patient LIDC-IDRI-0013
+2024-10-19 15:04:07,643 - INFO - Original volume shape: (512, 512, 125), Original spacing: [0.585938 0.585938 2.5     ]
+2024-10-19 15:04:08,411 - INFO - Resampled volume shape: (300, 300, 312), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:04:08,663 - ERROR - Error processing scan for patient LIDC-IDRI-0013: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:04:08,677 - INFO - Processing patient LIDC-IDRI-0014
+2024-10-19 15:04:09,522 - INFO - Original volume shape: (512, 512, 114), Original spacing: [0.664062 0.664062 2.5     ]
+2024-10-19 15:04:10,434 - INFO - Resampled volume shape: (340, 340, 285), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:04:10,724 - ERROR - Error processing scan for patient LIDC-IDRI-0014: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+2024-10-19 15:04:10,741 - INFO - Processing patient LIDC-IDRI-0015
+2024-10-19 15:04:12,367 - INFO - Original volume shape: (512, 512, 209), Original spacing: [0.693359 0.693359 1.25    ]
+2024-10-19 15:04:13,260 - INFO - Resampled volume shape: (355, 355, 261), New spacing: [1.0, 1.0, 1.0]
+2024-10-19 15:04:13,545 - ERROR - Error processing scan for patient LIDC-IDRI-0015: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations
+Traceback (most recent call last):
+  File "c:/Users/hasht/Desktop/Cloned Repositories/Lung-Cancer-Classification-using-CT/preprocess/feature_extraction_3d.py", line 424, in extract_features_3d
+    nodules = scan.cluster_annotations()
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Scan.py", line 439, in cluster_annotations
+    D[i,j] = D[j,i] = metric(self.annotations[i],
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 27, in <lambda>
+    metrics['min'] = lambda a,b: pairdist(a,b,'min')
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\annotation_distance_metrics.py", line 15, in pairdist
+    dists = cdist(ann1.contours_matrix,
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in contours_matrix
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Annotation.py", line 968, in <listcomp>
+    return np.vstack([c.to_matrix(include_k=True)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\pylidc\Contour.py", line 111, in to_matrix
+    return np.c_[ij, k].astype(np.int)
+  File "C:\Users\hasht\anaconda3\envs\radiomics_3-8-20\lib\site-packages\numpy\__init__.py", line 305, in __getattr__
+    raise AttributeError(__former_attrs__[attr])
+AttributeError: module 'numpy' has no attribute 'int'.
+`np.int` was a deprecated alias for the builtin `int`. To avoid this error in existing code, use `int` by itself. Doing this will not modify any behavior and is safe. When replacing `np.int`, you may wish to use e.g. `np.int64` or `np.int32` to specify the precision. If you wish to review your current use, check the release note link for additional information.
+The aliases was originally deprecated in NumPy 1.20; for more details and guidance see the original release note at:
+    https://numpy.org/devdocs/release/1.20.0-notes.html#deprecations

@@ -47,7 +47,7 @@ DEFAULT_OUTPUT_DIR = Path("Metadata")
 DEFAULT_LOG_FILE = "feature_extraction_3d.log"
 
 # Default scan limit: number of scans to process; set to 0 or negative to process all scans
-DEFAULT_SCAN_LIMIT = 50
+DEFAULT_SCAN_LIMIT = 15
 
 # Default confidence level for consensus mask creation
 DEFAULT_CONSENSUS_LEVEL = 0.5
