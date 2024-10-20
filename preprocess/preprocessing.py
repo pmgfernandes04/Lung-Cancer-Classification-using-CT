@@ -339,10 +339,18 @@ class MakeDataSet:
         """
         logging.info("Saving metadata.")
         print("Saving metadata.")  # Immediate feedback
-        # Save metadata to CSV
+
+        # Path to the metadata CSV file
         meta_file = Path(self.meta_path) / 'meta_info.csv'
-        # Overwrite the CSV file each time
-        self.meta.to_csv(meta_file, index=False)
+
+        # Check if the file already exists
+        if meta_file.exists():
+            # Append to the existing CSV without writing the header again
+            self.meta.to_csv(meta_file, mode='a', header=False, index=False)
+        else:
+            # If the file does not exist, write the metadata with headers
+            self.meta.to_csv(meta_file, mode='w', header=True, index=False)
+
         logging.info("Metadata saved to meta_info.csv.")
 
 
