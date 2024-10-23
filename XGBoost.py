@@ -1,6 +1,3 @@
-# gradient_boosting_classifier.py
-
-# 1. Import Necessary Libraries
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -23,7 +20,7 @@ from tqdm import tqdm
 from tqdm_joblib import tqdm_joblib
 
 # 2. Load the Combined and Cleaned Dataset
-data = pd.read_csv('combined_cleaned_data.csv')  # Replace with your actual filename
+data = pd.read_csv('combined_cleaned_data.csv')
 
 # 3. Prepare X and y
 # Assuming 'is_cancer' is your target variable
