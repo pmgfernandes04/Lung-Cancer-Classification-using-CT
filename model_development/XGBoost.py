@@ -23,7 +23,7 @@ from tqdm_joblib import tqdm_joblib
 data = pd.read_csv('combined_cleaned_data.csv')
 
 # 3. Prepare X and y
-# Assuming 'is_cancer' is your target variable
+# Assuming 'is_cancer' is the target variable
 X = data.drop(['is_cancer'], axis=1)
 y = data['is_cancer']
 
@@ -59,6 +59,8 @@ xgb_model = XGBClassifier(
     eval_metric='mlogloss',
     random_state=42
 )
+
+#------------------------------------------------------------------------------------------------------------------------------------#
 
 # 8. Hyperparameter Tuning (Optional)
 # Define a grid of hyperparameters
@@ -102,15 +104,15 @@ print("Best parameters found: ", grid_search.best_params_)
 print("Best cross-validation score: ", grid_search.best_score_)
 
 # Use the best estimator
-best_model = grid_search.best_estimator_
+best_model_xgb = grid_search.best_estimator_
 
 # 9. Train the Model
-best_model.fit(X_train_res, y_train_res)
+best_model_xgb.fit(X_train_res, y_train_res)
 
 # 10. Evaluate the Model
 # Predictions on the test set
-y_pred = best_model.predict(X_test)
-y_prob = best_model.predict_proba(X_test)
+y_pred = best_model_xgb.predict(X_test)
+y_prob = best_model_xgb.predict_proba(X_test)
 
 # Classification report
 print("Classification Report:")
